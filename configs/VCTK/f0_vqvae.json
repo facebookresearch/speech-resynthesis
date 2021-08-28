@@ -1,0 +1,61 @@
+{
+    "input_training_file": "datasets/VCTK/vctk_audio_text_train_filelist.txt",
+    "input_validation_file": "datasets/VCTK/vctk_audio_text_val_filelist.txt",
+
+    "resblock": "1",
+    "num_gpus": 0,
+    "batch_size": 16,
+    "learning_rate": 0.0002,
+    "adam_b1": 0.8,
+    "adam_b2": 0.99,
+    "lr_decay": 0.999,
+    "seed": 1234,
+
+    "segment_size": 16640,
+    "multispkr": "_",
+
+    "f0_stats": "datasets/VCTK/f0_stats.th",
+    "f0_normalize": true,
+    "f0_feats": false,
+    "f0_median": false,
+    "f0_interp": false,
+
+    "f0_vq_params": {
+        "l_bins": 20,
+        "emb_width": 128,
+        "mu": 0.99,
+        "levels": 1
+    },
+    "f0_encoder_params": {
+        "input_emb_width": 1,
+        "output_emb_width": 128,
+        "levels":  1,
+        "downs_t": [4],
+        "strides_t": [2],
+        "width": 32,
+        "depth": 4,
+        "m_conv": 1.0,
+        "dilation_growth_rate": 3
+    },
+    "f0_decoder_params": {
+        "input_emb_width": 1,
+        "output_emb_width": 128,
+        "levels":  1,
+        "downs_t": [4],
+        "strides_t": [2],
+        "width": 32,
+        "depth": 4,
+        "m_conv": 1.0,
+        "dilation_growth_rate": 3
+    },
+
+    "lambda_commit": 0.02,
+    "sampling_rate": 16000,
+
+    "num_workers": 4,
+
+    "dist_config": {
+        "dist_backend": "nccl",
+        "dist_url": "env://"
+    }
+}
