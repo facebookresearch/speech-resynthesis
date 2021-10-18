@@ -105,6 +105,7 @@ def main():
     parser.add_argument('--checkpoint_file', required=True)
     parser.add_argument('--gpus', type=int, default=8)
     parser.add_argument('-n', type=int, default=-1)
+    parser.add_argument('--ext', type=str, default="wav")
     a = parser.parse_args()
 
     ids = list(range(8))
@@ -113,7 +114,7 @@ def main():
     for i in ids:
         idQueue.put(i)
 
-    files = a.input_dir.glob('**/*wav')
+    files = a.input_dir.glob(f'**/*{a.ext}')
     files = list(files)
     lines = []
 

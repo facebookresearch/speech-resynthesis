@@ -42,9 +42,9 @@ Requirements:
 2. Downsample audio from 48 kHz to 16 kHz, trim trailing silences and pad
    ```bash
    python ./scripts/preprocess.py \
-   --srcdir data/VCTK-Corpus/wav48 \
-   --outdir data/VCTK-Corpus/wav16 \
-   --trim --pad
+   --srcdir data/VCTK-Corpus/wav48_silence_trimmed \
+   --outdir data/VCTK-Corpus/wav16_silence_trimmed_padded \
+   --pad --postfix mic2.flac
    ```
 
 ## Training
@@ -82,7 +82,7 @@ Currently, we support the following training schemes:
 To generate, simply run:
 ```bash
 python inference.py \
---checkpoint_file checkpoints/0 \
+--checkpoint_file checkpoints/vctk_cpc100 \
 -n 10 \
 --output_dir generations
 ```

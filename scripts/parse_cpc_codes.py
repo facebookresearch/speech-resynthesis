@@ -8,7 +8,7 @@ import argparse
 import random
 from pathlib import Path
 
-import torchaudio
+import soundfile as sf
 from tqdm import tqdm
 
 
@@ -75,13 +75,14 @@ def main():
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--wav-root', type=Path, required=True)
     parser.add_argument('--outdir', type=Path, required=True)
-    parser.add_argument('--cv', type=float, default=0.1)
+    parser.add_argument('--cv', type=float, default=0.05)
     parser.add_argument('--tt', type=float, default=0.05)
     parser.add_argument('--min-dur', type=float, default=None)
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--ref-train', type=Path, default=None)
     parser.add_argument('--ref-val', type=Path, default=None)
     parser.add_argument('--ref-test', type=Path, default=None)
+    parser.add_argument('--ext', type=str, default='wav')
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -95,14 +96,15 @@ def main():
         sample = {}
         fname, code = l.split('\t')
         fname = args.wav_root / f'{fname}'
-        if not 'wav' == str(fname)[-3:]:
-            fname = Path(str(fname) + '.wav')
+        if not args.ext == str(fname)[-3:]:
+            fname = Path(str(fname) + f'.{args.ext}')
 
         sample['audio'] = str(fname)
         sample['cpc_km100'] = ' '.join(code.split(','))
 
-        waveform, sample_rate = torchaudio.load(fname)
-        sample['duration'] = waveform.shape[1] / sample_rate
+        waveform, sample_rate = sf.read(fname)
+        length = waveform.shape[1] if len(waveform.shape) == 2 else waveform.shape[0]
+        sample['duration'] = length / sample_rate
 
         if args.min_dur and sample['duration'] < args.min_dur:
             continue

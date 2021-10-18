@@ -12,12 +12,12 @@ from pathlib import Path
 import amfm_decompy.basic_tools as basic
 import amfm_decompy.pYAAPT as pYAAPT
 import numpy as np
+import soundfile as sf
 import torch
 import torch.utils.data
 import torch.utils.data
 from librosa.filters import mel as librosa_mel_fn
 from librosa.util import normalize
-from scipy.io.wavfile import read
 
 MAX_WAV_VALUE = 32768.0
 
@@ -67,8 +67,8 @@ def mel_spectrogram(y, n_fft, num_mels, sampling_rate, hop_size, win_size, fmin,
     return spec
 
 
-def load_wav(full_path):
-    sampling_rate, data = read(full_path)
+def load_audio(full_path):
+    data, sampling_rate = sf.read(full_path, dtype='int16')
     return data, sampling_rate
 
 
@@ -219,7 +219,7 @@ class CodeDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         filename = self.audio_files[index]
         if self._cache_ref_count == 0:
-            audio, sampling_rate = load_wav(filename)
+            audio, sampling_rate = load_audio(filename)
             if sampling_rate != self.sampling_rate:
                 # raise ValueError("{} SR doesn't match target {} SR".format(
                 #     sampling_rate, self.sampling_rate))
@@ -371,7 +371,7 @@ class F0Dataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         filename = self.audio_files[index]
         if self._cache_ref_count == 0:
-            audio, sampling_rate = load_wav(filename)
+            audio, sampling_rate = load_audio(filename)
             if self.pad:
                 padding = self.pad - (audio.shape[-1] % self.pad)
                 audio = np.pad(audio, (0, padding), "constant", constant_values=0)

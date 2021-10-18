@@ -42,9 +42,10 @@ def main():
     parser.add_argument('--outdir', type=Path, required=True)
     parser.add_argument('--trim', action='store_true')
     parser.add_argument('--pad', action='store_true')
+    parser.add_argument('--postfix', type=str, default='wav')
     args = parser.parse_args()
 
-    files = list(Path(args.srcdir).glob('**/*wav'))
+    files = list(Path(args.srcdir).glob(f'**/*{args.postfix}'))
     out_dir = Path(args.outdir)
 
     pad_data_ = partial(pad_data, out_dir=out_dir, trim=args.trim, pad=args.pad)
