@@ -114,8 +114,10 @@ def parse_manifest(manifest):
                     k = 'cpc_km100'
                 elif 'vqvae256' in sample:
                     k = 'vqvae256'
-                else:
+                elif 'hubert' in sample:
                     k = 'hubert'
+                else:
+                    k = 'codes'
 
                 codes += [torch.LongTensor(
                     [int(x) for x in sample[k].split(' ')]
