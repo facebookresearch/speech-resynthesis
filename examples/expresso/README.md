@@ -1,5 +1,5 @@
 # Expresso
-This repository shows an example of training a hifigan model [1,2] conditionned on one-hot speaker and style information as in the Expresso paper [3]. It also supports duration prediction module as in [4].
+This repository shows an example of training a hifigan model [1,2] conditionned on one-hot speaker and style information as in the [Expresso paper](https://speechbot.github.io/expresso/) [3]. It also supports duration prediction module as in [4].
 
 ## Data
 The data follows the code dataset format, where each line is expected to be a dictionary with the following keys: "audio", "hubert" (or "codes"), "spk", "style".
@@ -44,5 +44,5 @@ You can also use `textlesslib` to synthesize speech from hifigan model as descri
 ## References
 [1] [HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis](https://arxiv.org/abs/2010.05646) \
 [2] [Speech Resynthesis from Discrete Disentangled Self-Supervised Representations](https://arxiv.org/abs/2104.00355) \
-[3] [Expresso: A Benchmark and Analysis of Discrete Expressive Speech Resynthesis]() \
+[3] [Expresso: A Benchmark and Analysis of Discrete Expressive Speech Resynthesis](https://arxiv.org/abs/2308.05725) \
 [4] [Textless Speech-to-Speech Translation on Real Data](https://arxiv.org/abs/2112.08352)
