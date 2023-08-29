@@ -304,6 +304,7 @@ class InferenceCodeDataset(torch.utils.data.Dataset):
 
                 # Output filename
                 if name_parts:
+                    # Take the last 3 parts in the path
                     parts = Path(audio).parts
                     fname_out_name = os.path.splitext("_".join(parts[-3:]))[0]
                 else:
