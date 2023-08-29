@@ -42,14 +42,15 @@ class MultiSpkrMultiStyleCodeGenerator(DurationCodeGenerator):
             signal = signal.unsqueeze(2)
             bsz, channels, cond_length = signal.size()
         else:
+            assert signal.dim() == 1, signal.dim()
             signal = signal.view(-1, 1, 1)
             bsz, channels, cond_length = signal.size()
 
         signal = signal.unsqueeze(3).repeat(1, 1, 1, max_frames // cond_length)
 
         # pad zeros as needed (if signal's shape does not divide completely with max_frames)
-        reminder = (max_frames - signal.shape[2] * signal.shape[3]) // signal.shape[3]
-        if reminder > 0:
+        remainder = (max_frames - signal.shape[2] * signal.shape[3]) // signal.shape[3]
+        if remainder > 0:
             raise NotImplementedError(
                 "Padding condition signal - misalignment between condition features."
             )
